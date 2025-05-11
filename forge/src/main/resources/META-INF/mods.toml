@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion = "[${forge},)"
+license="GNU LGPL 3.0"
+issueTrackerURL="https://Anthony/sol_valheim/issues"
+
+[[mods]]
+modId = "${id}"
+version = "${version}"
+displayName = "${display_name}"
+authors = "Me!"
+description = '''
+'''
+logoFile = "icon.png"
+
+[[dependencies.${id}]]
+modId = "forge"
+mandatory = true
+versionRange = "[${forge},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${id}]]
+modId = "minecraft"
+mandatory = true
+versionRange = "${minecraft_version}"
+ordering = "NONE"
+side = "BOTH"
