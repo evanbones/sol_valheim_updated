@@ -13,8 +13,10 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.UseAnim;
+import vice.sol_valheim.api.FoodPropertiesGetter;
 
 import java.util.*;
 
@@ -22,8 +24,8 @@ import java.util.*;
 @Config(name = SOLValheim.MOD_ID)
 @Config.Gui.Background("minecraft:textures/block/stone.png")
 public class ModConfig extends PartitioningSerializer.GlobalData {
-
-    public static Common.FoodConfig getFoodConfig(Item item) {
+    public static Common.FoodConfig getFoodConfig(ItemStack stack) {
+        var item = stack.getItem();
         var isDrink = item.getDefaultInstance().getUseAnimation() == UseAnim.DRINK;
         if(item != Items.CAKE && !item.isEdible() && !isDrink)
             return null;
@@ -35,7 +37,7 @@ public class ModConfig extends PartitioningSerializer.GlobalData {
 
             var food = item == Items.CAKE
                     ? new FoodProperties.Builder().nutrition(10).saturationMod(0.7f).build()
-                    : item.getFoodProperties();
+                    : SOLValheim.getter.get(stack);
 
             if (isDrink) {
                 if (registry.contains("potion")) {
@@ -71,8 +73,6 @@ public class ModConfig extends PartitioningSerializer.GlobalData {
                 effectConfig.ID = BuiltInRegistries.MOB_EFFECT.getKey(MobEffects.MOVEMENT_SPEED).toString();
                 existing.extraEffects.add(effectConfig);
             }
-
-            SOLValheim.Config.common.foodConfigs.put(item.arch$registryName().toString(), existing);
         }
 
         return existing;

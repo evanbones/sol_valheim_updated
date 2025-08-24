@@ -68,7 +68,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
             return;
         }
 
-        sol_valheim$food_data.eatItem(stack.getItem());
+        sol_valheim$food_data.eatItem(stack);
         sol_valheim$trackData();
     }
 

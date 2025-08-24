@@ -18,7 +18,7 @@ public class ServerPlayerMixin
         var useItem = player.getUseItem();
         if (!useItem.isEmpty() && player.isUsingItem() && useItem.getUseAnimation() == UseAnim.DRINK)
         {
-            ((PlayerEntityMixinDataAccessor) player).sol_valheim$getFoodData().eatItem(useItem.getItem());
+            ((PlayerEntityMixinDataAccessor) player).sol_valheim$getFoodData().eatItem(useItem);
         }
     }
 }
