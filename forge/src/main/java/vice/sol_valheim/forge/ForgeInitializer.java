@@ -11,6 +11,7 @@ public class ForgeInitializer
     public ForgeInitializer() {
 		// Submit our event bus to let architectury register our content on the right time
         EventBuses.registerModEventBus(SOLValheim.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
-        SOLValheim.init();
+        SOLValheim.init((stack) -> stack.getFoodProperties(null));
     }
+
 }

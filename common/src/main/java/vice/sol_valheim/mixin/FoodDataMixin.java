@@ -35,7 +35,7 @@ public class FoodDataMixin implements FoodDataPlayerAccessor
         }
 
         var foodData = ((PlayerEntityMixinDataAccessor) sol_valheim$player).sol_valheim$getFoodData();
-        if (foodData.canEat(item))
-            foodData.eatItem(item);
+        if (foodData.canEat(stack))
+            foodData.eatItem(stack);
     }
 }

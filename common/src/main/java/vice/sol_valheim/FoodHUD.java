@@ -81,7 +81,7 @@ public class FoodHUD implements ClientGuiEvent.RenderHud
         if (foodConfig == null)
             return;
 
-        var isDrink = food.item.getDefaultInstance().getUseAnimation() == UseAnim.DRINK;
+        var isDrink = food.item.getUseAnimation() == UseAnim.DRINK;
         int bgColor = isDrink ? FastColor.ARGB32.color(96, 52, 104, 163) : FastColor.ARGB32.color(96, 0, 0, 0);
         int yellow = FastColor.ARGB32.color(255, 255, 191, 0);
 
@@ -112,14 +112,14 @@ public class FoodHUD implements ClientGuiEvent.RenderHud
         pose.scale(scale, scale, scale);
         pose.translate(startWidth * (useLargeIcons ? 0.3333f : 1f), height * (useLargeIcons ? 0.3333f : 1f), 0f);
 
-        if (food.item == Items.CAKE && Platform.isModLoaded("farmersdelight"))
+        if (food.item.is(Items.CAKE) && Platform.isModLoaded("farmersdelight"))
         {
             var cakeSlice = SOLValheim.ITEMS.getRegistrar().get(new ResourceLocation("farmersdelight:cake_slice"));
-            renderGUIItem(graphics, new ItemStack(cakeSlice == null ? food.item : cakeSlice, 1), startWidth + 1, height + 1);
+            renderGUIItem(graphics, cakeSlice != null ? new ItemStack(cakeSlice, 1) : food.item, startWidth + 1, height + 1);
         }
         else
         {
-            renderGUIItem(graphics, new ItemStack(food.item, 1), startWidth + 1, height + 1);
+            renderGUIItem(graphics, food.item, startWidth + 1, height + 1);
         }
 
         pose.pushPose();

@@ -20,13 +20,13 @@ public class CakeBlockMixin
     private static void canEatCake(LevelAccessor level, BlockPos pos, BlockState state, Player player, CallbackInfoReturnable<InteractionResult> cir)
     {
         var foodData = ((PlayerEntityMixinDataAccessor) player).sol_valheim$getFoodData();
-        var canEat = foodData.canEat(Items.CAKE);
+        var canEat = foodData.canEat(Items.CAKE.getDefaultInstance());
         if (canEat)
         {
             if (level.isClientSide())
                 return;
 
-            foodData.eatItem(Items.CAKE);
+            foodData.eatItem(Items.CAKE.getDefaultInstance());
             return;
         }
 

@@ -19,6 +19,7 @@ import net.minecraft.world.item.*;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
+import vice.sol_valheim.api.FoodPropertiesGetter;
 
 import java.util.List;
 
@@ -47,34 +48,16 @@ public class SOLValheim
 		return speedBuff;
 	}
 
+	public static FoodPropertiesGetter getter;
 
-	public static void init() {
+	public static void init(FoodPropertiesGetter getter) {
 		EntityDataSerializers.registerSerializer(ValheimFoodData.FOOD_DATA_SERIALIZER);
 
 		AutoConfig.register(ModConfig.class, PartitioningSerializer.wrap(JanksonConfigSerializer::new));
 		Config = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
 
-		boolean addedAny = false;
-
-    	#if PRE_CURRENT_MC_1_19_2
-		for (Item item : Registry.ITEM) {
-    	#elif POST_CURRENT_MC_1_20_1
-		for (Item item : BuiltInRegistries.ITEM) {
-		#endif
-			var key = item.arch$registryName();
-			var existing = Config.common.foodConfigs.get(key);
-			if (existing == null) {
-				ModConfig.getFoodConfig(item);
-				addedAny = true;
-			}
-		}
-
-		if (addedAny) {
-			//System.out.println("Generated config for missing items...");
-			AutoConfig.getConfigHolder(ModConfig.class).save();
-		}
+		SOLValheim.getter = getter;
 	}
-
 
 
 	public static void addTooltip(ItemStack item, TooltipFlag flag, List<Component> list){
@@ -84,7 +67,7 @@ public class SOLValheim
 			return;
 		}
 
-		var config = ModConfig.getFoodConfig(food);
+		var config = ModConfig.getFoodConfig(item);
 		if (config == null)
 			return;
 
